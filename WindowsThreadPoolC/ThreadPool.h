@@ -30,6 +30,7 @@ typedef struct thread_pool_
 static thread_pool_work* thread_pool_work_get(thread_pool* tp)
 {
     thread_pool_work* work = tp->work_first;
+
     if (work == NULL)
         return NULL;
 
@@ -77,7 +78,7 @@ static DWORD WINAPI thread_pool_worker(LPVOID arg)
 
     LeaveCriticalSection(&(tp->work_mutex));
 
-    return NULL;
+    return 0;
 }
 
 thread_pool* thread_pool_create(size_t num)
