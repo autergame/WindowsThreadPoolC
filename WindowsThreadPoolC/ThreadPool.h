@@ -34,7 +34,15 @@ static thread_pool_work* thread_pool_work_get(thread_pool* tp)
     if (work == NULL)
         return NULL;
 
-    tp->work_first = work->next;
+    if (work->next == NULL) 
+    {
+        tp->work_first = NULL;
+        tp->work_last = NULL;
+    }
+    else 
+    {
+        tp->work_first = work->next;
+    }
 
     return work;
 }
@@ -61,6 +69,7 @@ static DWORD WINAPI thread_pool_worker(LPVOID arg)
         {
             work->func(work->arg);
             free(work);
+            work = NULL;
         }
 
         EnterCriticalSection(&(tp->work_mutex));
