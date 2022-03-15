@@ -4,13 +4,7 @@ Single Header Windows Thread Pool Without Library For C
 ## Help From:
 * https://github.com/user-none/poddown
 
-# CAUTION: LIBRARY NOT WORKING CORRECTLY
-
-### WARNING: PLEASE DON'T ADD CODE BETWEEN `thread_pool_add_work` AND `thread_pool_wait`
-### IF SO, THE CODE POSSIBLY WILL RUN MULTIPLE TIMES.
-
-### WARNING: PLEASE DON'T ADD CODE BETWEEN `thread_pool_wait` AND `thread_pool_destroy`
-### IF SO, THE THREAD POSSIBLY WILL RUN INCORRECTLY.
+# CAUTION: LIBRARY TESTS NOT WORKING CORRECTLY
 
 ***
 
