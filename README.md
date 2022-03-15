@@ -4,7 +4,8 @@ Single Header Windows Thread Pool Without Library For C
 ## Help From:
 * https://github.com/user-none/poddown
 
-# CAUTION: LIBRARY TESTS NOT WORKING CORRECTLY
+# WARNING: You Possibly Will Have To Use Interlocked Variable Access
+* https://docs.microsoft.com/en-us/windows/win32/sync/interlocked-variable-access
 
 ***
 
