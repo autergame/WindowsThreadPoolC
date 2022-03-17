@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 
+
 void start_time_func(LARGE_INTEGER* start_time, LARGE_INTEGER* frequency)
 {
 	QueryPerformanceFrequency(frequency);
@@ -36,15 +37,15 @@ thread_pool_function(sumtest, arg_var)
 
 	InterlockedAdd64(&ts->sum, calc);
 
-	DWORD thread_id = GetCurrentThreadId();
-	printf("thread: %06d index: %03d calc: %04" PRIu64 "\n", thread_id, index, calc);
+	//DWORD thread_id = GetCurrentThreadId();
+	//printf("thread: %06d index: %03d calc: %04" PRIu64 "\n", thread_id, index, calc);
 }
 
 int main()
 {
 	LARGE_INTEGER start_time, frequency;
 
-	int number_size = 1000;
+	int number_size = 100000;
 	uint64_t* numbers = (uint64_t*)calloc(number_size, sizeof(uint64_t));
 	for (int i = 0; i < number_size; i++)
 	{
@@ -53,7 +54,7 @@ int main()
 
 	uint64_t sum_ref = 0;
 
-	printf("start\n");
+	//printf("start\n");
 	start_time_func(&start_time, &frequency);
 
 	for (int i = 0; i < number_size; i++)
@@ -61,27 +62,27 @@ int main()
 		uint64_t calc = (numbers[i] * numbers[i]) / 3ull;
 		sum_ref += calc;
 
-		printf("index: %03d calc: %04" PRIu64 "\n", i, calc);
+		//printf("index: %03d calc: %04" PRIu64 "\n", i, calc);
 	}
 
 	double sum_elapsed_ref = stop_time_func(start_time, frequency);
-	printf("end\n");
+	//printf("end\n");
 
 	printf("	ref: %" PRIu64 "\n", sum_ref);
 	printf("	ref total time: %9.6f ms\n\n", sum_elapsed_ref);
 
-	int total_tests = 10;
+	int total_tests = 100;
 	int total_errors = 0;
 	for (int k = 0; k < total_tests; k++)
 	{
-		printf("test number: %d\n", k);
+		printf("test number: %d\n", k + 1);
 
 		test_struct* ts = (test_struct*)calloc(1, sizeof(test_struct));
 		ts->numbers = numbers;
 		ts->index = 0;
 		ts->sum = 0;
 
-		printf("start\n");
+		//printf("start\n");
 		start_time_func(&start_time, &frequency);
 
 		int cpu_threads = get_cpu_threads();
@@ -92,10 +93,11 @@ int main()
 		{
 			thread_pool_add_work(thread_pool, sumtest, ts);
 		}
+
 		thread_pool_destroy(thread_pool);
 
 		double sum_elapsed = stop_time_func(start_time, frequency);
-		printf("end\n");
+		//printf("end\n");
 
 		printf("	out: %" PRIu64 "\n", ts->sum);
 		printf("	out total time: %9.6f ms\n\n", sum_elapsed);
